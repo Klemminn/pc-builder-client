@@ -22,9 +22,7 @@ const App = () => {
     <Router>
       <Sidebar open={isOpenSidebar} toggleSidebar={toggleSidebar}>
         <Hidden.IsMobile>
-          <Buttons.MenuButton onClick={toggleSidebar}>
-            Toggle sidebar
-          </Buttons.MenuButton>
+          <Buttons.MenuButton onClick={toggleSidebar} />
         </Hidden.IsMobile>
         <Switch>
           <Route exact path="/" component={HomePage} />

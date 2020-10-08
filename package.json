@@ -5,6 +5,7 @@
   "dependencies": {
     "@emotion/core": "^10.0.35",
     "@emotion/styled": "^10.0.27",
+    "@khanacademy/react-multi-select": "^0.3.3",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -14,7 +15,6 @@
     "@types/react-dom": "^16.9.0",
     "@types/react-responsive": "^8.0.2",
     "@types/react-router-dom": "^5.1.6",
-    "@types/react-select": "^3.0.21",
     "axios": "^0.20.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -22,7 +22,6 @@
     "react-responsive": "^8.1.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
-    "react-select": "^3.1.0",
     "react-sidebar": "^3.0.2",
     "typescript": "~3.7.2"
   },

@@ -71,9 +71,12 @@ const Home: React.FC = () => {
                 {item.cores}/{item.threads}
               </Table.Column>
               <Table.Column center>{item.tdp}W</Table.Column>
-              <Table.Column>{item.graphics}</Table.Column>
+              <Table.Column center>{item.graphics}</Table.Column>
             </Hidden.HideUnder>
-            <Table.PriceColumn offerings={item.offerings} />
+            <Table.PriceColumn
+              offerings={item.offerings}
+              onSelect={(offering) => console.log(offering)}
+            />
           </Table.Row>
         )}
       />
