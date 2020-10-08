@@ -14,18 +14,23 @@
     "@types/react-dom": "^16.9.0",
     "@types/react-responsive": "^8.0.2",
     "@types/react-router-dom": "^5.1.6",
+    "@types/react-select": "^3.0.21",
+    "axios": "^0.20.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-icons": "^3.11.0",
     "react-responsive": "^8.1.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
+    "react-select": "^3.1.0",
     "react-sidebar": "^3.0.2",
     "typescript": "~3.7.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "cross-env HTTPS=true PORT=3000 REACT_APP_ENV=local react-scripts start",
+    "build": "cross-env REACT_APP_ENV=production react-scripts build",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -54,6 +59,7 @@
     "@types/react-sidebar": "^3.0.0",
     "@types/reactstrap": "^8.5.1",
     "bootstrap": "^4.5.2",
+    "cross-env": "^7.0.2",
     "gh-pages": "^3.1.0",
     "prettier": "^2.1.2",
     "reactstrap": "^8.6.0"

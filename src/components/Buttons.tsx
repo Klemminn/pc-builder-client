@@ -4,15 +4,15 @@ import {
   Button as BootstrapButton,
   ButtonProps as BootstrapButtonProps,
 } from 'reactstrap';
-import { Themes } from 'style';
+import { Themes } from 'styles';
 import { FaBars } from 'react-icons/fa';
 
 type ButtonProps = BootstrapButtonProps & {
   color?: Themes.ThemeTypes;
 };
 
-export const Button = styled(BootstrapButton)`
-  ${({ color }: ButtonProps) =>
+export const Button = styled(BootstrapButton)<ButtonProps>`
+  ${({ color }) =>
     `
         background-color: ${Themes.ColorThemes[color ?? 'default'].background};
         color: ${Themes.ColorThemes[color ?? 'default'].font}

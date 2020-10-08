@@ -9,7 +9,7 @@ import { CgScreenMirror } from 'react-icons/cg';
 import { ImPower } from 'react-icons/im';
 
 import { Link } from 'components';
-import { Colors } from 'style';
+import { Colors } from 'styles';
 
 import VaktinLogo from 'assets/vaktinlogo.png';
 
@@ -72,7 +72,7 @@ type SidebarProps = {
 const components = [
   {
     icon: <FaHammer />,
-    text: 'Smíða',
+    text: 'Tölvan',
     to: '/',
   },
   {
@@ -108,10 +108,8 @@ const components = [
 ];
 
 const Sidebar: React.FC<SidebarProps> = ({ children, open, toggleSidebar }) => {
-  const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
+  const isMobile = useMediaQuery({ query: '(max-width: 1000px)' });
   const location = useLocation();
-
-  console.log(location);
 
   return (
     <ReactSidebar

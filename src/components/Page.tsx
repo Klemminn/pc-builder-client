@@ -1,9 +1,11 @@
 import React from 'react';
 import styled from '@emotion/styled';
 
-import { Colors } from 'style';
+import { Colors } from 'styles';
 
-const Container = styled.div``;
+const Container = styled.div`
+  margin: 1rem 2rem;
+`;
 
 const Title = styled.div`
   display: flex;
@@ -21,11 +23,11 @@ type PageProps = {
   title: string;
 };
 
-const Page: React.FC<PageProps> = ({ children, title, ...rest }) => (
-  <Container {...rest}>
+const Page: React.FC<PageProps> = ({ title, ...rest }) => (
+  <>
     <Title>{title}</Title>
-    {children}
-  </Container>
+    <Container {...rest} />
+  </>
 );
 
 export default Page;
