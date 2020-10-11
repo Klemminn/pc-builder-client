@@ -1,0 +1,4 @@
+.multi-select span.item-renderer {
+  display: flex;
+  align-items: center;
+}

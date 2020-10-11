@@ -8,44 +8,42 @@ import {
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap';
+import {
+  FaBars,
+  FaCartPlus,
+  FaCheck,
+  FaPencilAlt,
+  FaPlus,
+} from 'react-icons/fa';
+
+import { FormatUtils } from 'utils';
 import { Colors, Themes } from 'styles';
-import { FaBars, FaCartPlus } from 'react-icons/fa';
+import Link from './Link';
 
 type ButtonProps = BootstrapButtonProps & {
   color?: Themes.ThemeTypes;
+  to?: string;
 };
 
-export const Button = styled(BootstrapButton)<ButtonProps>`
-  ${({ color }) =>
-    `
-        background-color: ${Themes.ColorThemes[color ?? 'default'].background};
-        color: ${Themes.ColorThemes[color ?? 'default'].font}
-    `}}
+const StyledButton = styled(BootstrapButton)<ButtonProps>`
+border: none;
+${({ color }) =>
+  `
+background-color: ${Themes.ColorThemes[color ?? 'default'].background};
+color: ${Themes.ColorThemes[color ?? 'default'].font}
+`}}
 `;
 
-const IconButton = styled(Button)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.2rem;
-  height: 2.4rem;
-  width: 2.4rem;
-`;
+export const Button: React.FC<ButtonProps> = ({ to, ...rest }) =>
+  to ? (
+    <Link to={to}>
+      <StyledButton {...rest} />
+    </Link>
+  ) : (
+    <StyledButton {...rest} />
+  );
 
-const UnstyledMenuButton: React.FC<ButtonProps> = ({ ...rest }) => (
-  <IconButton children={<FaBars />} {...rest} />
-);
-
-export const MenuButton = styled(UnstyledMenuButton)`
-  position: absolute;
-  background-color: transparent;
-  border: none;
-  font-size: 2rem;
-  height: 5rem;
-  width: 5rem;
-`;
-
-export const DropdownButtonToggle = styled(DropdownToggle)`
+const IconButtonStyle = `
   background-color: ${Colors.Orange};
   border: none;
   display: flex;
@@ -57,20 +55,59 @@ export const DropdownButtonToggle = styled(DropdownToggle)`
   width: 2.4rem;
 `;
 
-type CartButtonProps = {
-  items: any[];
+const IconButton = styled(Button)`
+  ${IconButtonStyle}
+`;
+
+export const AddButton: React.FC<ButtonProps> = ({ ...rest }) => (
+  <IconButton children={<FaPlus />} {...rest} />
+);
+
+export const EditButton: React.FC<ButtonProps> = ({ ...rest }) => (
+  <IconButton children={<FaPencilAlt />} {...rest} />
+);
+
+export const CheckButton: React.FC<ButtonProps> = ({ ...rest }) => (
+  <IconButton children={<FaCheck />} {...rest} />
+);
+
+const UnstyledMenuButton: React.FC<ButtonProps> = ({ ...rest }) => (
+  <IconButton children={<FaBars />} {...rest} />
+);
+
+export const MenuButton = styled(UnstyledMenuButton)`
+  position: absolute;
+  background-color: transparent;
+  font-size: 2rem;
+  height: 5rem;
+  width: 5rem;
+`;
+
+export const DropdownButtonToggle = styled(DropdownToggle)`
+  ${IconButtonStyle}
+  width: 100%;
+`;
+
+type OfferingsButtonProps = {
+  offerings: any[];
   onSelect(item: any): void;
 };
 
-export const CartButton: React.FC<CartButtonProps> = ({ items, onSelect }) => (
+export const OfferingsButton: React.FC<OfferingsButtonProps> = ({
+  offerings,
+  onSelect,
+  children,
+}) => (
   <UncontrolledDropdown>
-    <DropdownButtonToggle color="warning">
-      <FaCartPlus />
+    <DropdownButtonToggle caret={!!children}>
+      {children ?? <FaCartPlus />}
     </DropdownButtonToggle>
     <DropdownMenu>
-      {items.map((item, idx) => (
-        <DropdownItem key={idx} onClick={() => onSelect(item)}>
-          {item.label}
+      {offerings.map((offering, idx) => (
+        <DropdownItem key={idx} onClick={() => onSelect(offering)}>
+          {`${offering.retailerName} - ${FormatUtils.formatCurrency(
+            offering.price,
+          )}`}
         </DropdownItem>
       ))}
     </DropdownMenu>

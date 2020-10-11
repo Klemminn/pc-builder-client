@@ -5,6 +5,8 @@
   "dependencies": {
     "@emotion/core": "^10.0.35",
     "@emotion/styled": "^10.0.27",
+    "@hookstate/core": "^3.0.1",
+    "@hookstate/devtools": "^3.0.0",
     "@khanacademy/react-multi-select": "^0.3.3",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -16,6 +18,7 @@
     "@types/react-responsive": "^8.0.2",
     "@types/react-router-dom": "^5.1.6",
     "axios": "^0.20.0",
+    "localforage": "^1.9.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-icons": "^3.11.0",

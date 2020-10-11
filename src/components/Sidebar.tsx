@@ -5,8 +5,9 @@ import { useLocation } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { FaMemory, FaBox, FaHammer } from 'react-icons/fa';
 import { FiCpu, FiHardDrive } from 'react-icons/fi';
-import { CgScreenMirror } from 'react-icons/cg';
+import { CgDrive, CgScreenMirror } from 'react-icons/cg';
 import { ImPower } from 'react-icons/im';
+import { GiComputerFan } from 'react-icons/gi';
 
 import { Link } from 'components';
 import { Colors } from 'styles';
@@ -77,23 +78,33 @@ const components = [
   },
   {
     icon: <FiCpu />,
-    text: 'CPU',
+    text: 'Örgjörvar',
     to: '/cpu',
   },
   {
+    icon: <GiComputerFan />,
+    text: 'Kælingar',
+    to: '/cpuCooler',
+  },
+  {
     icon: <FaMemory />,
-    text: 'RAM',
-    to: '/ram',
+    text: 'Minni',
+    to: '/memory',
   },
   {
     icon: <CgScreenMirror />,
-    text: 'GPU',
+    text: 'Skjákort',
     to: '/gpu',
   },
   {
+    icon: <CgDrive />,
+    text: 'SSD',
+    to: '/ssd',
+  },
+  {
     icon: <FiHardDrive />,
-    text: 'HDD & SSD',
-    to: '/storage',
+    text: 'HDD',
+    to: '/hdd',
   },
   {
     icon: <FaBox />,

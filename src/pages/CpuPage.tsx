@@ -5,7 +5,7 @@ import { OfferingsService } from 'services';
 import { FormatUtils } from 'utils';
 import { CpuContainer } from 'types';
 
-const Home: React.FC = () => {
+const CpuPage: React.FC = () => {
   const [data, setData] = useState<CpuContainer>();
 
   useEffect(() => {
@@ -73,10 +73,7 @@ const Home: React.FC = () => {
               <Table.Column center>{item.tdp}W</Table.Column>
               <Table.Column center>{item.graphics}</Table.Column>
             </Hidden.HideUnder>
-            <Table.PriceColumn
-              offerings={item.offerings}
-              onSelect={(offering) => console.log(offering)}
-            />
+            <Table.PriceColumn item={item} componentType="cpu" />
           </Table.Row>
         )}
       />
@@ -84,4 +81,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default CpuPage;

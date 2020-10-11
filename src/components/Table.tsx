@@ -5,14 +5,16 @@ import Select from '@khanacademy/react-multi-select';
 
 import { FormatUtils } from 'utils';
 import * as Images from './Images';
-import { Offering, Component } from 'types';
+import { Component, ComponentTypes } from 'types';
 import { Buttons, Hidden } from 'components';
+import { BuildState } from 'states';
 
 type HeaderObjectProps = {
   type: string;
   label?: string;
   attribute?: string;
   hideUnder?: number;
+  renderSelectLabel?(value: string | number): string;
 };
 
 type TableProps = {
@@ -34,7 +36,7 @@ export const Table: React.FC<TableProps> = ({
   const [filters, setFilters] = useState<Filters>({});
 
   const renderHeader = (header: HeaderObjectProps) => {
-    const { type, label, attribute, hideUnder } = header;
+    const { type, label, attribute, hideUnder, renderSelectLabel } = header;
     let parsed;
     if (type === 'image') {
       parsed = <Header thin />;
@@ -45,7 +47,7 @@ export const Table: React.FC<TableProps> = ({
     } else if (type === 'price') {
       parsed = (
         <>
-          <Header label="Verð" right />
+          <Header label="Lægsta verð" right />
           <Header thin />
         </>
       );
@@ -54,7 +56,7 @@ export const Table: React.FC<TableProps> = ({
         <SelectHeader
           label={label ?? ''}
           options={data?.[attribute ?? ''].map((value: string) => ({
-            label: value,
+            label: renderSelectLabel?.(value) ?? value,
             value: value,
           }))}
           onChange={(options) => {
@@ -140,36 +142,43 @@ export const NameColumn: React.FC<NameColumnProps> = ({ item }) => (
 );
 
 type PriceColumnProps = {
-  offerings: Offering[];
-  onSelect(offering: Offering): void;
+  item: Component;
+  componentType: ComponentTypes;
 };
 
-/* display: flex;
-    flex: 1;
-    justify-content: flex-end;
-    align-items: center;*/
-
 export const PriceColumn: React.FC<PriceColumnProps> = ({
-  offerings,
-  onSelect,
-}) => (
-  <>
-    <Column right>{`${offerings[0].retailerName} - ${FormatUtils.formatCurrency(
-      offerings[0].price,
-    )}`}</Column>
-    <Column thin>
-      <Buttons.CartButton
-        onSelect={(offering) => onSelect(offering)}
-        items={offerings.map((offering) => ({
-          ...offering,
-          label: `${offering.retailerName} - ${FormatUtils.formatCurrency(
-            offering.price,
-          )}`,
-        }))}
-      />
-    </Column>
-  </>
-);
+  item,
+  componentType,
+}) => {
+  const build = BuildState.useState().get();
+  const component = build[componentType];
+  const selected = Array.isArray(component)
+    ? component.findIndex((c) => c.id === item.id)
+    : component?.id === item.id;
+  const { offerings } = item;
+
+  return (
+    <>
+      <Column right>{`${
+        offerings[0].retailerName
+      } - ${FormatUtils.formatCurrency(offerings[0].price)}`}</Column>
+      <Column thin>
+        {selected ? (
+          <Buttons.CheckButton color="secondary" />
+        ) : (
+          <Buttons.OfferingsButton
+            onSelect={(offering) =>
+              BuildState.accessState().set({
+                [componentType]: { ...item, offering: offering.id },
+              })
+            }
+            offerings={offerings}
+          />
+        )}
+      </Column>
+    </>
+  );
+};
 
 type Option = {
   label: string;
@@ -216,9 +225,7 @@ const SelectHeader: React.FC<SelectHeaderProps> = ({
         hasSelectAll={false}
         overrideStrings={{
           selectSomeItems: label,
-          allItemsAreSelected: 'Allt valiið',
-          selectAll: 'Velja allt',
-          search: 'Leita...',
+          allItemsAreSelected: 'Allt valið',
         }}
       />
     </StyledHeader>
