@@ -11,7 +11,7 @@ import 'styles/GlobalOverride.css';
 
 import { Sidebar, Buttons, Hidden } from 'components';
 
-import HomePage from 'pages/HomePage';
+import BuildPage from 'pages/BuildPage';
 import CpuPage from 'pages/CpuPage';
 import CpuCoolerPage from 'pages/CpuCoolerPage';
 import MotherboardPage from 'pages/MotherboardPage';
@@ -34,8 +34,8 @@ const App = () => {
           <Buttons.MenuButton onClick={toggleSidebar} />
         </Hidden.IsMobile>
         <Switch>
-          <Route exact path="/build/" component={HomePage} />
-          <Route exact path="/build/:buildId" component={HomePage} />
+          <Route exact path="/build/" component={BuildPage} />
+          <Route exact path="/build/:buildId" component={BuildPage} />
           <Route exact path="/cpu" component={CpuPage} />
           <Route exact path="/cpuCooler" component={CpuCoolerPage} />
           <Route exact path="/motherboard" component={MotherboardPage} />
