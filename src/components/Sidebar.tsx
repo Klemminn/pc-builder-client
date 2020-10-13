@@ -7,10 +7,11 @@ import { FaMemory, FaBox, FaHammer } from 'react-icons/fa';
 import { FiCpu, FiHardDrive } from 'react-icons/fi';
 import { CgDrive, CgScreenMirror } from 'react-icons/cg';
 import { ImPower } from 'react-icons/im';
-import { GiComputerFan } from 'react-icons/gi';
+import { GiCircuitry, GiComputerFan } from 'react-icons/gi';
 
 import { Link } from 'components';
 import { Colors } from 'styles';
+import { BuildState } from 'states';
 
 import VaktinLogo from 'assets/vaktinlogo.png';
 
@@ -74,7 +75,7 @@ const components = [
   {
     icon: <FaHammer />,
     text: 'Tölvan',
-    to: '/',
+    to: null,
   },
   {
     icon: <FiCpu />,
@@ -85,6 +86,11 @@ const components = [
     icon: <GiComputerFan />,
     text: 'Kælingar',
     to: '/cpuCooler',
+  },
+  {
+    icon: <GiCircuitry />,
+    text: 'Móðurborð',
+    to: '/motherboard',
   },
   {
     icon: <FaMemory />,
@@ -121,6 +127,7 @@ const components = [
 const Sidebar: React.FC<SidebarProps> = ({ children, open, toggleSidebar }) => {
   const isMobile = useMediaQuery({ query: '(max-width: 1000px)' });
   const location = useLocation();
+  const buildState = BuildState.useState().get();
 
   return (
     <ReactSidebar
@@ -131,7 +138,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children, open, toggleSidebar }) => {
           </LogoContainer>
           {components.map(({ to, ...component }, idx) => (
             <React.Fragment key={idx}>
-              <Link to={to}>
+              <Link to={to ?? `/build/${buildState.buildId ?? ''}`}>
                 <SidebarItem active={to === location.pathname} {...component} />
               </Link>
               {!idx && <Separator />}

@@ -1,2 +1,3 @@
+import * as BuildService from './BuildService';
 import * as OfferingsService from './OfferingsService';
-export { OfferingsService };
+export { BuildService, OfferingsService };

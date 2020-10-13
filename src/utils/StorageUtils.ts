@@ -4,7 +4,7 @@ export const setItem = async (key: string, value: any) => {
   await storage.setItem(key, value);
 };
 
-export const getItem = async (key: string) => {
+export const getItem = async (key: string): Promise<any> => {
   return await storage.getItem(key);
 };
 

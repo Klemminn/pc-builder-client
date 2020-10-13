@@ -1,24 +1,12 @@
 import { createState, useState as useHookState, State } from '@hookstate/core';
 
-import { Component } from 'types';
-import { StorageUtils } from 'utils';
+import { Build } from 'types';
 
-type BuildState = {
-  id?: string;
-  cpu?: Component | null;
-  cpuCooler?: Component | null;
-  memory?: Component | null;
-  gpu?: Component | null;
-  ssd?: Component | null;
-  hdd?: Component | null;
-  case?: Component | null;
-  psu?: Component | null;
-};
-
-const defaultState: BuildState = {
-  id: '',
+export const defaultBuild: Build = {
+  buildId: '',
   cpu: null,
   cpuCooler: null,
+  motherboard: null,
   memory: null,
   gpu: null,
   ssd: null,
@@ -27,18 +15,12 @@ const defaultState: BuildState = {
   psu: null,
 };
 
-const state = createState(defaultState);
+export const state = createState(defaultBuild);
 
-const wrapState = (s: State<BuildState>) => ({
+const wrapState = (s: State<Build>) => ({
   get: () => s.value,
-  set: (changes: BuildState) => {
-    s.set((s) => {
-      const newState = JSON.parse(JSON.stringify({ ...s, ...changes }));
-      StorageUtils.setItem('build', newState);
-
-      return newState;
-    });
-  },
+  set: (newState: Build) =>
+    s.set(newState ? JSON.parse(JSON.stringify(newState)) : defaultBuild),
 });
 
 export const accessState = () => wrapState(state);

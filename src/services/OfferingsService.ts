@@ -15,6 +15,11 @@ export const getCpuCoolers = async () => {
   return data;
 };
 
+export const getMotherboard = async () => {
+  const { data } = await connector.get('/offerings/motherboard/');
+  return data;
+};
+
 export const getGpu = async () => {
   const { data } = await connector.get('/offerings/gpu/');
   return data;

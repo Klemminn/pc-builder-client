@@ -3,6 +3,7 @@ import { Offering } from './Offering';
 export type ComponentTypes =
   | 'cpu'
   | 'cpuCooler'
+  | 'motherboard'
   | 'memory'
   | 'gpu'
   | 'ssd'
@@ -10,7 +11,17 @@ export type ComponentTypes =
   | 'case'
   | 'psu';
 
-export type Component = (Cpu | Memory | CpuCooler | Gpu | Ssd | Hdd | Case) & {
+export type Component = (
+  | Cpu
+  | CpuCooler
+  | Motherboard
+  | Memory
+  | Gpu
+  | Ssd
+  | Hdd
+  | Case
+  | Psu
+) & {
   [x: string]: string;
 };
 
@@ -28,6 +39,7 @@ export type Cpu = {
   image: string;
   minPrice: number;
   offerings: Offering[];
+  selectedOffering?: Offering[];
 };
 
 export type CpuContainer = {
@@ -49,6 +61,7 @@ export type Memory = {
   minPrice: number;
   image: string;
   offerings: Offering[];
+  selectedOffering?: Offering[];
 };
 
 export type MemoryContainer = {
@@ -72,6 +85,7 @@ export type CpuCooler = {
   minPrice: number;
   image: string;
   offerings: Offering[];
+  selectedOffering?: Offering[];
 };
 
 export type CpuCoolerContainer = {
@@ -80,6 +94,30 @@ export type CpuCoolerContainer = {
   fans: number[];
   fanSize: number[];
   items: Memory[];
+};
+
+export type Motherboard = {
+  id: string;
+  vendor: string;
+  name: string;
+  motherboardFormFactor: string;
+  chipset: string;
+  cpuSocket: string;
+  ramSlots: number;
+  m2Slots: number;
+  minPrice: number;
+  image: string;
+  offerings: Offering[];
+  selectedOffering?: Offering[];
+};
+
+export type MotherboardContainer = {
+  vendor: string[];
+  retailer: string[];
+  motherboardFormFactor: string[];
+  cpuSocket: string[];
+  chipset: string[];
+  items: Gpu[];
 };
 
 export type Gpu = {
@@ -92,6 +130,7 @@ export type Gpu = {
   minPrice: number;
   image: string;
   offerings: Offering[];
+  selectedOffering?: Offering[];
 };
 
 export type GpuContainer = {
@@ -112,6 +151,7 @@ export type Ssd = {
   minPrice: number;
   image: string;
   offerings: Offering[];
+  selectedOffering?: Offering[];
 };
 
 export type SsdContainer = {
@@ -132,6 +172,7 @@ export type Hdd = {
   minPrice: number;
   image: string;
   offerings: Offering[];
+  selectedOffering?: Offering[];
 };
 
 export type HddContainer = {
@@ -151,6 +192,7 @@ export type Case = {
   minPrice: number;
   image: string;
   offerings: Offering[];
+  selectedOffering?: Offering[];
 };
 
 export type CaseContainer = {
@@ -171,6 +213,7 @@ export type Psu = {
   minPrice: number;
   image: string;
   offerings: Offering[];
+  selectedOffering?: Offering[];
 };
 
 export type PsuContainer = {

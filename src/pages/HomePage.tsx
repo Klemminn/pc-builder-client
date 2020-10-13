@@ -4,9 +4,9 @@ import { useParams } from 'react-router-dom';
 
 import { BuildState } from 'states';
 import { Buttons, Page } from 'components';
-import { FormatUtils, StorageUtils } from 'utils';
+import { BuildUtils, FormatUtils, StorageUtils } from 'utils';
 import { Colors } from 'styles';
-import { Offering } from 'types';
+import { BuildService } from 'services';
 
 const ComponentContainer = styled.div`
   margin-bottom: 1rem;
@@ -22,13 +22,14 @@ const ComponentTitle = styled.div`
   font-weight: bold;
 `;
 
-const InfoContainer = styled.div`
+const ComponentInfoContainer = styled.div`
   display: flex;
   border: 1px solid ${Colors.GreyDark};
   justify-content: space-between;
   align-items: center;
   border-radius: 1rem;
   margin-top: 0.5rem;
+  margin-left: 3.5em;
   padding: 1rem;
 `;
 
@@ -70,6 +71,7 @@ const TotalPrice = styled.div`
 const ComponentNames: { [x: string]: string } = {
   cpu: 'Örgjörvi',
   cpuCooler: 'Kæling',
+  motherboard: 'Móðurborð',
   memory: 'Vinnsluminni',
   gpu: 'Skjákort',
   ssd: 'SSD',
@@ -84,49 +86,41 @@ type HomeRouteParams = {
 
 const HomePage: React.FC = () => {
   const buildState: any = BuildState.useState();
-  const build: any = buildState.get();
-  const { buildId }: HomeRouteParams = useParams();
+  const stateBuild: any = buildState.get();
+  const { buildId: routeBuildId }: HomeRouteParams = useParams();
 
   useEffect(() => {
-    if (buildId) {
-      // TODO get from server
-      console.log(buildId);
-    } else {
-      setBuildFromStorage();
-    }
+    const init = async () => {
+      // We have the build in state, so we don't have to get from storage or server
+      if (stateBuild.buildId) {
+        return;
+      }
+      let currentBuild;
+      if (routeBuildId) {
+        currentBuild = await BuildService.getBuild(routeBuildId);
+      } else {
+        const storageBuildId: string = await StorageUtils.getItem('buildId');
+        if (storageBuildId) {
+          currentBuild = await BuildService.getBuild(storageBuildId);
+        }
+      }
+      buildState.set({ ...BuildState.defaultBuild, ...currentBuild });
+    };
+    init();
     // eslint-disable-next-line
-  }, [buildId]);
+  }, []);
 
-  const setBuildFromStorage = async () => {
-    const storageBuild = await StorageUtils.getItem('build');
-    if (storageBuild) {
-      buildState.set(storageBuild);
-    }
-  };
-
-  const totalPrice = Object.keys(build).reduce((accumulator, key) => {
-    const component = build[key];
-    return (
-      accumulator +
-      (component?.offerings?.find((o: Offering) => o.id === component.offering)
-        .price || 0)
-    );
+  const totalPrice = Object.keys(stateBuild).reduce((accumulator, key) => {
+    const component = stateBuild[key];
+    return accumulator + (component?.selectedOffering?.price ?? 0);
   }, 0);
 
   const renderComponent = (key: string) => {
-    if (key === 'id') return null;
-    const component = build[key];
+    if (key === 'buildId') return null;
+    const component = stateBuild[key];
     const Button = component ? Buttons.EditButton : Buttons.AddButton;
-    let selectedOffering;
-    if (component) {
-      selectedOffering = component?.offerings.find(
-        (o: Offering) => o.id === component.offering,
-      );
-      if (!selectedOffering) {
-        selectedOffering = component.offerings[0];
-      }
-    }
-    const isCheapest = selectedOffering?.price === component?.minPrice;
+    const isCheapest =
+      component?.selectedOffering?.price === component?.minPrice;
     return (
       <ComponentContainer key={key}>
         <ComponentTitle key={key}>
@@ -134,9 +128,9 @@ const HomePage: React.FC = () => {
           {ComponentNames[key]}
         </ComponentTitle>
         {component && (
-          <InfoContainer>
+          <ComponentInfoContainer>
             <ComponentNameImageContainer
-              href={selectedOffering.url}
+              href={component?.selectedOffering?.url}
               target="__blank"
             >
               <ComponentThumbnail
@@ -149,28 +143,32 @@ const HomePage: React.FC = () => {
                 <Buttons.OfferingsButton
                   offerings={component.offerings}
                   onSelect={(offering) => {
-                    buildState.set({
+                    BuildUtils.updateState({
                       [key]: {
                         ...component,
-                        offering: offering.id,
+                        selectedOffering: offering,
                       },
                     });
                   }}
                 >
                   {`${
-                    selectedOffering.retailerName
-                  } - ${FormatUtils.formatCurrency(selectedOffering.price)}`}
+                    component?.selectedOffering.retailerName
+                  } - ${FormatUtils.formatCurrency(
+                    component.selectedOffering.price,
+                  )}`}
                 </Buttons.OfferingsButton>
               ) : (
                 `${
-                  selectedOffering.retailerName
-                } - ${FormatUtils.formatCurrency(selectedOffering.price)}`
+                  component.selectedOffering.retailerName
+                } - ${FormatUtils.formatCurrency(
+                  component.selectedOffering.price,
+                )}`
               )}
               {!isCheapest && (
                 <PriceNotification>Til ódýrara</PriceNotification>
               )}
             </ComponentPrice>
-          </InfoContainer>
+          </ComponentInfoContainer>
         )}
       </ComponentContainer>
     );
@@ -179,7 +177,7 @@ const HomePage: React.FC = () => {
   return (
     <Page title="Veldu íhluti">
       <TotalPrice>Samtals: {FormatUtils.formatCurrency(totalPrice)}</TotalPrice>
-      {Object.keys(build).map((key: string) => renderComponent(key))}
+      {Object.keys(stateBuild).map((key: string) => renderComponent(key))}
     </Page>
   );
 };

@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { Table as BootstrapTable } from 'reactstrap';
 import styled from '@emotion/styled';
 import Select from '@khanacademy/react-multi-select';
+import { useHistory } from 'react-router-dom';
 
-import { FormatUtils } from 'utils';
+import { FormatUtils, BuildUtils } from 'utils';
 import * as Images from './Images';
 import { Component, ComponentTypes } from 'types';
 import { Buttons, Hidden } from 'components';
 import { BuildState } from 'states';
+import { Colors } from 'styles';
 
 type HeaderObjectProps = {
   type: string;
@@ -146,31 +148,43 @@ type PriceColumnProps = {
   componentType: ComponentTypes;
 };
 
+const WebsiteLink = styled.a`
+  color: ${Colors.Black};
+  text-decoration: underline;
+`;
+
 export const PriceColumn: React.FC<PriceColumnProps> = ({
   item,
   componentType,
 }) => {
   const build = BuildState.useState().get();
+  const history = useHistory();
+
   const component = build[componentType];
-  const selected = Array.isArray(component)
-    ? component.findIndex((c) => c.id === item.id)
-    : component?.id === item.id;
+  const selected = component?.id === item.id;
   const { offerings } = item;
 
   return (
     <>
-      <Column right>{`${
-        offerings[0].retailerName
-      } - ${FormatUtils.formatCurrency(offerings[0].price)}`}</Column>
+      <Column right>
+        <WebsiteLink href={offerings[0].url} target="__blank">
+          {`${offerings[0].retailerName} - ${FormatUtils.formatCurrency(
+            offerings[0].price,
+          )}`}
+        </WebsiteLink>
+      </Column>
       <Column thin>
         {selected ? (
           <Buttons.CheckButton color="secondary" />
         ) : (
           <Buttons.OfferingsButton
             onSelect={(offering) =>
-              BuildState.accessState().set({
-                [componentType]: { ...item, offering: offering.id },
-              })
+              BuildUtils.updateState(
+                {
+                  [componentType]: { ...item, selectedOffering: offering },
+                },
+                history,
+              )
             }
             offerings={offerings}
           />
