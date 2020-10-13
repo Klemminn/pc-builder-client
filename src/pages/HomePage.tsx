@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 import { BuildState } from 'states';
 import { Buttons, Page } from 'components';
 import { BuildUtils, FormatUtils, StorageUtils } from 'utils';
 import { Colors } from 'styles';
-import { BuildService } from 'services';
+import { BuildService, OfferingsService } from 'services';
+import { FaTimes } from 'react-icons/fa';
 
 const ComponentContainer = styled.div`
   margin-bottom: 1rem;
@@ -42,9 +43,10 @@ const ComponentName = styled.div`
 const ComponentPrice = styled.div`
   font-size: 1.3rem;
   font-weight: bold;
+  text-align: right;
 `;
 
-const PriceNotification = styled.div`
+const AvailabilityNotification = styled.div`
   text-align: right;
   font-size: 1rem;
 `;
@@ -58,6 +60,13 @@ const ComponentNameImageContainer = styled.a`
   align-items: center;
   color: ${Colors.Black};
   text-decoration: underline;
+`;
+
+const RemoveIcon = styled(FaTimes)`
+  width: 2rem;
+  color: #929292;
+  font-size: 1.5rem;
+  cursor: pointer;
 `;
 
 const TotalPrice = styled.div`
@@ -88,6 +97,7 @@ const HomePage: React.FC = () => {
   const buildState: any = BuildState.useState();
   const stateBuild: any = buildState.get();
   const { buildId: routeBuildId }: HomeRouteParams = useParams();
+  const history = useHistory();
 
   useEffect(() => {
     const init = async () => {
@@ -126,6 +136,16 @@ const HomePage: React.FC = () => {
         <ComponentTitle key={key}>
           <Button to={`/${key}`} />
           {ComponentNames[key]}
+          <RemoveIcon
+            onClick={() =>
+              BuildUtils.updateState(
+                {
+                  [key]: null,
+                },
+                history,
+              )
+            }
+          />
         </ComponentTitle>
         {component && (
           <ComponentInfoContainer>
@@ -143,12 +163,15 @@ const HomePage: React.FC = () => {
                 <Buttons.OfferingsButton
                   offerings={component.offerings}
                   onSelect={(offering) => {
-                    BuildUtils.updateState({
-                      [key]: {
-                        ...component,
-                        selectedOffering: offering,
+                    BuildUtils.updateState(
+                      {
+                        [key]: {
+                          ...component,
+                          selectedOffering: offering,
+                        },
                       },
-                    });
+                      history,
+                    );
                   }}
                 >
                   {`${
@@ -165,7 +188,12 @@ const HomePage: React.FC = () => {
                 )}`
               )}
               {!isCheapest && (
-                <PriceNotification>Til ódýrara</PriceNotification>
+                <AvailabilityNotification>Til ódýrara</AvailabilityNotification>
+              )}
+              {component.selectedOffering.disabled && (
+                <AvailabilityNotification>
+                  Ekki lengur í boði hjá söluaðila
+                </AvailabilityNotification>
               )}
             </ComponentPrice>
           </ComponentInfoContainer>
