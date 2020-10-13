@@ -2,7 +2,7 @@ import { BuildState } from 'states';
 import * as StorageUtils from './StorageUtils';
 import { BuildService } from 'services';
 
-export const updateState = async (changes: any, history?: any) => {
+export const updateState = async (changes: any, history: any) => {
   const state = BuildState.accessState();
   // Need this hack, else hookstate crashes...
   const newState = { ...state.get(), ...changes };
@@ -14,13 +14,23 @@ export const updateState = async (changes: any, history?: any) => {
       offeringIds.push(component.selectedOffering.id);
     }
   }
-  const buildId = await BuildService.createBuild(offeringIds);
-  newState.buildId = buildId;
+  if (offeringIds.length) {
+    const buildId = await BuildService.createBuild(offeringIds);
+    newState.buildId = buildId;
 
-  await StorageUtils.setItem('buildId', buildId);
-  state.set(newState);
+    await StorageUtils.setItem('buildId', buildId);
+    state.set(newState);
 
-  if (history) {
-    history.push(`/build/${buildId}`);
+    if (history) {
+      history.push(`/build/${buildId}`);
+    }
+  } else {
+    clearState(history);
   }
+};
+
+export const clearState = async (history: any) => {
+  await StorageUtils.removeItem('buildId');
+  BuildState.accessState().set();
+  history.push('/build/');
 };

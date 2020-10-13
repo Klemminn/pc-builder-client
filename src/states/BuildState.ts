@@ -19,7 +19,7 @@ export const state = createState(defaultBuild);
 
 const wrapState = (s: State<Build>) => ({
   get: () => s.value,
-  set: (newState: Build) =>
+  set: (newState?: Build) =>
     s.set(newState ? JSON.parse(JSON.stringify(newState)) : defaultBuild),
 });
 

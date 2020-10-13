@@ -6,8 +6,8 @@ import { BuildState } from 'states';
 import { Buttons, Page } from 'components';
 import { BuildUtils, FormatUtils, StorageUtils } from 'utils';
 import { Colors } from 'styles';
-import { BuildService, OfferingsService } from 'services';
-import { FaTimes } from 'react-icons/fa';
+import { BuildService } from 'services';
+import { FaRedo, FaTimes } from 'react-icons/fa';
 
 const ComponentContainer = styled.div`
   margin-bottom: 1rem;
@@ -69,12 +69,26 @@ const RemoveIcon = styled(FaTimes)`
   cursor: pointer;
 `;
 
-const TotalPrice = styled.div`
+const TopContainer = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+`;
+
+const TotalPrice = styled.div`
   font-size: 1.3rem;
   text-decoration: underline;
   font-weight: bold;
+`;
+
+const ClearButton = styled(Buttons.Button)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+
+  svg {
+    margin-right: 0.5rem;
+  }
 `;
 
 const ComponentNames: { [x: string]: string } = {
@@ -136,16 +150,18 @@ const HomePage: React.FC = () => {
         <ComponentTitle key={key}>
           <Button to={`/${key}`} />
           {ComponentNames[key]}
-          <RemoveIcon
-            onClick={() =>
-              BuildUtils.updateState(
-                {
-                  [key]: null,
-                },
-                history,
-              )
-            }
-          />
+          {component && (
+            <RemoveIcon
+              onClick={() =>
+                BuildUtils.updateState(
+                  {
+                    [key]: null,
+                  },
+                  history,
+                )
+              }
+            />
+          )}
         </ComponentTitle>
         {component && (
           <ComponentInfoContainer>
@@ -204,7 +220,15 @@ const HomePage: React.FC = () => {
 
   return (
     <Page title="Veldu íhluti">
-      <TotalPrice>Samtals: {FormatUtils.formatCurrency(totalPrice)}</TotalPrice>
+      <TopContainer>
+        <ClearButton onClick={() => BuildUtils.clearState(history)}>
+          <FaRedo />
+          Byrja upp á nýtt
+        </ClearButton>
+        <TotalPrice>
+          Samtals: {FormatUtils.formatCurrency(totalPrice)}
+        </TotalPrice>
+      </TopContainer>
       {Object.keys(stateBuild).map((key: string) => renderComponent(key))}
     </Page>
   );
