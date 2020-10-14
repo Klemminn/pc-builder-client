@@ -210,6 +210,7 @@ export type Psu = {
   pcieSixPin: number;
   pcieEightPin: number;
   psuFormFactor: string;
+  rating: string;
   minPrice: number;
   image: string;
   offerings: Offering[];
@@ -219,6 +220,7 @@ export type Psu = {
 export type PsuContainer = {
   vendor: string[];
   retailer: string[];
+  ratings: string[];
   psuFormFactor: string[];
   items: Gpu[];
 };
