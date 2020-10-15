@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { Table as BootstrapTable } from 'reactstrap';
 import styled from '@emotion/styled';
-import Select from '@khanacademy/react-multi-select';
 import { useHistory } from 'react-router-dom';
 
 import { FormatUtils, BuildUtils } from 'utils';
 import * as Images from './Images';
 import { Component, ComponentTypes } from 'types';
-import { Buttons, Hidden } from 'components';
+import { Buttons, Hidden, Inputs } from 'components';
 import { BuildState } from 'states';
 import { Colors } from 'styles';
 
@@ -36,6 +35,7 @@ export const Table: React.FC<TableProps> = ({
   ...rest
 }) => {
   const [filters, setFilters] = useState<Filters>({});
+  const [search, setSearch] = useState('');
 
   const renderHeader = (header: HeaderObjectProps) => {
     const { type, label, attribute, hideUnder, renderSelectLabel } = header;
@@ -45,7 +45,26 @@ export const Table: React.FC<TableProps> = ({
     } else if (type === 'basic') {
       parsed = <Header label={label} center />;
     } else if (type === 'name') {
-      parsed = <Header label="Nafn" />;
+      parsed = (
+        <SelectHeader
+          label="Framleiðandi"
+          options={data?.vendor.map((value: string) => ({
+            label: renderSelectLabel?.(value) ?? value,
+            value: value,
+          }))}
+          onChange={(options) => {
+            setFilters({
+              ...filters,
+              vendor: options,
+            });
+          }}
+        >
+          <Inputs.TextInput
+            placeholder="Leit..."
+            onChange={(value) => setSearch(value)}
+          />
+        </SelectHeader>
+      );
     } else if (type === 'price') {
       parsed = (
         <>
@@ -77,6 +96,14 @@ export const Table: React.FC<TableProps> = ({
   };
   let filteredItems = data?.items;
   if (filteredItems) {
+    // Filter by name for searched string
+    if (search.length) {
+      const searchSplit = search.toLowerCase().split(' ');
+      filteredItems = filteredItems.filter((item: Component) =>
+        searchSplit.every((word) => item.name.toLowerCase().includes(word)),
+      );
+    }
+    // Filter by chosen attributes
     for (const attribute in filters) {
       filteredItems = filteredItems.filter(
         (item: Component) =>
@@ -220,28 +247,30 @@ type SelectHeaderProps = {
   onChange(options: any): void;
 };
 
+const SelectContainer = styled.div`
+  display: flex;
+  > div {
+    flex-grow: 1;
+    min-width: 50%;
+  }
+`;
+
 const SelectHeader: React.FC<SelectHeaderProps> = ({
   label,
   options,
   onChange,
-}) => {
-  const [selected, setSelected] = useState<string[]>([]);
-  return (
-    <StyledHeader>
-      <Select
-        options={options}
-        selected={selected}
-        onSelectedChanged={(selectedOptions: string[]) => {
-          setSelected(selectedOptions);
-          onChange(selectedOptions);
-        }}
-        disableSearch
-        hasSelectAll={false}
-        overrideStrings={{
-          selectSomeItems: label,
-          allItemsAreSelected: 'Allt valið',
-        }}
-      />
-    </StyledHeader>
-  );
-};
+  children,
+}) => (
+  <StyledHeader>
+    <SelectContainer>
+      <Hidden.HideUnder width={750}>
+        <Inputs.Select
+          options={options}
+          onChange={(selectedOptions: string[]) => onChange(selectedOptions)}
+          placeholder={label}
+        />
+      </Hidden.HideUnder>
+      {children}
+    </SelectContainer>
+  </StyledHeader>
+);

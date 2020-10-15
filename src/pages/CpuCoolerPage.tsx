@@ -36,7 +36,7 @@ const CpuCoolerPage: React.FC = () => {
             type: 'select',
             attribute: 'fanSize',
             renderSelectLabel: (value) => `${value}mm`,
-            label: 'Stærð vifta',
+            label: 'Viftustærð',
           },
           {
             type: 'price',

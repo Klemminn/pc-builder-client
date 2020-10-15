@@ -1,8 +1,9 @@
 import * as Buttons from './Buttons';
 import * as Hidden from './Hidden';
 import * as Images from './Images';
+import * as Inputs from './Inputs';
 import * as Table from './Table';
-export { Buttons, Hidden, Images, Table };
+export { Buttons, Hidden, Images, Inputs, Table };
 
 export { default as Link } from './Link';
 export { default as Page } from './Page';
