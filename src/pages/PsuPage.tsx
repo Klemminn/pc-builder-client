@@ -57,6 +57,7 @@ const PsuPage: React.FC = () => {
           <Table.Row key={idx}>
             <Table.ImageColumn src={item.image} />
             <Table.NameColumn item={item} />
+            <Table.Column center>{item.rating}</Table.Column>
             <Table.Column center>{item.watts}W</Table.Column>
             <Hidden.HideUnder width={750}>
               <Table.Column center>{item.psuFormFactor}</Table.Column>
