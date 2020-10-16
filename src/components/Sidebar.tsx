@@ -31,8 +31,8 @@ const Logo = styled.img`
 const StyledItem = styled('div')<{ active: boolean }>`
   display: flex;
   align-items: center;
-  font-size: 2rem;
-  padding: 1rem;
+  font-size: 1.5rem;
+  padding: 0.6rem;
   color: ${Colors.GreyLight};
   ${({ active }) => (active ? `background-color: ${Colors.OrangeDark};` : '')}
 `;
