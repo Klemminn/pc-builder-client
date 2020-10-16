@@ -66,7 +66,7 @@ const CpuPage: React.FC = () => {
               {item.boostClock &&
                 ` / ${FormatUtils.formatFrequency(item.boostClock)}`}
             </Table.Column>
-            <Hidden.HideUnder width={750}>
+            <Hidden.HideUnder>
               <Table.Column center>
                 {item.cores}/{item.threads}
               </Table.Column>

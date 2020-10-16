@@ -62,7 +62,7 @@ const MemoryPage: React.FC = () => {
               item.size / item.modules
             }GB)`}</Table.Column>
             <Table.Column center>{item.frequency}MHz</Table.Column>
-            <Hidden.HideUnder width={750}>
+            <Hidden.HideUnder>
               <Table.Column center>{item.cas}</Table.Column>
             </Hidden.HideUnder>
             <Table.PriceColumn item={item} componentType="memory" />

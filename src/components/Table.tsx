@@ -263,7 +263,7 @@ const SelectHeader: React.FC<SelectHeaderProps> = ({
 }) => (
   <StyledHeader>
     <SelectContainer>
-      <Hidden.HideUnder width={750}>
+      <Hidden.HideUnder width={640}>
         <Inputs.Select
           options={options}
           onChange={(selectedOptions: string[]) => onChange(selectedOptions)}

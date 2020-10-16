@@ -139,7 +139,10 @@ const Sidebar: React.FC<SidebarProps> = ({ children, open, toggleSidebar }) => {
           </LogoContainer>
           {components.map(({ to, ...component }, idx) => (
             <React.Fragment key={idx}>
-              <Link to={to ?? `/build/${buildState.buildId ?? ''}`}>
+              <Link
+                to={to ?? `/build/${buildState.buildId ?? ''}`}
+                onClick={toggleSidebar}
+              >
                 <SidebarItem active={to === location.pathname} {...component} />
               </Link>
               {!idx && <Separator />}

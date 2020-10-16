@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { Page, Table } from 'components';
+import { Hidden, Page, Table } from 'components';
 import { OfferingsService } from 'services';
 import { MotherboardContainer } from 'types';
 
@@ -17,7 +17,7 @@ const MotherboardPage: React.FC = () => {
   };
 
   return (
-    <Page title="Veldu aflgjafa">
+    <Page title="Veldu móðurborð">
       <Table.Table
         data={data}
         headers={[
@@ -49,6 +49,7 @@ const MotherboardPage: React.FC = () => {
           {
             type: 'basic',
             label: 'm.2 raufar',
+            hideUnder: 750,
           },
           {
             type: 'price',
@@ -62,7 +63,9 @@ const MotherboardPage: React.FC = () => {
             <Table.Column center>{item.chipset}</Table.Column>
             <Table.Column center>{item.motherboardFormFactor}</Table.Column>
             <Table.Column center>{`${item.ramSlots}`}</Table.Column>
-            <Table.Column center>{`${item.m2Slots}`}</Table.Column>
+            <Hidden.HideUnder>
+              <Table.Column center>{`${item.m2Slots}`}</Table.Column>
+            </Hidden.HideUnder>
             <Table.PriceColumn item={item} componentType="motherboard" />
           </Table.Row>
         )}

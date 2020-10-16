@@ -6,13 +6,15 @@ export const IsMobile: React.FC = (props) => (
 );
 
 type HideUnderProps = {
-  width: number;
+  width?: number;
 };
 
-export const HideUnder: React.FC<HideUnderProps> = ({ width, ...rest }) => (
-  <MediaQuery minDeviceWidth={width} {...rest} />
-);
+export const HideUnder: React.FC<HideUnderProps> = ({
+  width = 750,
+  ...rest
+}) => <MediaQuery minDeviceWidth={width} {...rest} />;
 
-export const HideOver: React.FC<HideUnderProps> = ({ width, ...rest }) => (
-  <MediaQuery maxDeviceWidth={width} {...rest} />
-);
+export const HideOver: React.FC<HideUnderProps> = ({
+  width = 750,
+  ...rest
+}) => <MediaQuery maxDeviceWidth={width} {...rest} />;

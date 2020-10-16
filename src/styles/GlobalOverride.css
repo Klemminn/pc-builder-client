@@ -23,3 +23,16 @@
   display: flex;
   align-items: center;
 }
+
+input,
+.dropdown-heading {
+  height: 2.2rem !important;
+}
+
+.dropdown-heading-value {
+  margin-top: -1%;
+}
+
+.dropdown-heading-value > span {
+  line-height: 2.2rem !important;
+}

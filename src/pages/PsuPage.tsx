@@ -29,14 +29,15 @@ const PsuPage: React.FC = () => {
           },
           {
             type: 'select',
-            attribute: 'rating',
-            label: 'Nýtnistaðall',
-          },
-          {
-            type: 'select',
             attribute: 'watts',
             renderSelectLabel: (value) => `${value}W`,
             label: 'Afl',
+          },
+          {
+            type: 'select',
+            attribute: 'rating',
+            label: 'Nýtnistaðall',
+            hideUnder: 750,
           },
           {
             type: 'select',
@@ -57,9 +58,9 @@ const PsuPage: React.FC = () => {
           <Table.Row key={idx}>
             <Table.ImageColumn src={item.image} />
             <Table.NameColumn item={item} />
-            <Table.Column center>{item.rating}</Table.Column>
             <Table.Column center>{item.watts}W</Table.Column>
-            <Hidden.HideUnder width={750}>
+            <Hidden.HideUnder>
+              <Table.Column center>{item.rating}</Table.Column>
               <Table.Column center>{item.psuFormFactor}</Table.Column>
               <Table.Column center>{`${item.pcieEightPin}x 8-pin ${
                 !item.pcieSixPin ? '' : `/ ${item.pcieSixPin}x 6-pin`
