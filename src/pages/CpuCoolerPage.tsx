@@ -29,11 +29,6 @@ const CpuCoolerPage: React.FC = () => {
           },
           {
             type: 'select',
-            attribute: 'fans',
-            label: 'Viftur',
-          },
-          {
-            type: 'select',
             attribute: 'fanSize',
             renderSelectLabel: (value) => `${value}mm`,
             label: 'Viftustærð',
@@ -46,8 +41,9 @@ const CpuCoolerPage: React.FC = () => {
           <Table.Row key={idx}>
             <Table.ImageColumn src={item.image} />
             <Table.NameColumn item={item} />
-            <Table.Column center>{item.fans}</Table.Column>
-            <Table.Column center>{item.fanSize}mm</Table.Column>
+            <Table.Column
+              center
+            >{`${item.fans}x ${item.fanSize}mm`}</Table.Column>
             <Table.PriceColumn item={item} componentType="cpuCooler" />
           </Table.Row>
         )}
