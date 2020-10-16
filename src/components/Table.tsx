@@ -158,7 +158,7 @@ type ImageColumnProps = {
 
 export const ImageColumn: React.FC<ImageColumnProps> = ({ src }) => (
   <Column thin center>
-    <Images.Thumbnail src={FormatUtils.getSmallImageUrl(src)} />
+    <Images.Thumbnail src={src} />
   </Column>
 );
 

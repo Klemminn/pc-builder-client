@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { useHistory, useParams } from 'react-router-dom';
 
 import { BuildState } from 'states';
-import { Buttons, Page } from 'components';
+import { Buttons, Images, Page } from 'components';
 import { BuildUtils, FormatUtils, StorageUtils } from 'utils';
 import { Colors } from 'styles';
 import { BuildService } from 'services';
@@ -49,10 +49,6 @@ const ComponentPrice = styled.div`
 const AvailabilityNotification = styled.div`
   text-align: right;
   font-size: 1rem;
-`;
-
-const ComponentThumbnail = styled.img`
-  height: 4rem;
 `;
 
 const ComponentNameImageContainer = styled.a`
@@ -169,9 +165,7 @@ const HomePage: React.FC = () => {
               href={component?.selectedOffering?.url}
               target="__blank"
             >
-              <ComponentThumbnail
-                src={FormatUtils.getSmallImageUrl(component.image)}
-              />
+              <Images.Thumbnail size={4} src={component.image} />
               <ComponentName>{component.name}</ComponentName>
             </ComponentNameImageContainer>
             <ComponentPrice>
