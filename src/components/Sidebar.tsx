@@ -18,12 +18,13 @@ import VaktinLogo from 'assets/vaktinlogo.png';
 const LogoContainer = styled.div`
   display: flex;
   padding: 1rem;
+  justify-content: center;
   height: 5rem;
   background-color: ${Colors.Black};
 `;
 
 const Logo = styled.img`
-  width: 50%;
+  height: 3rem;
   text-align: center;
 `;
 
