@@ -3,7 +3,7 @@ type EnvParams = {
 };
 
 const production: EnvParams = {
-  api: 'https://api.pcbuilder.xyz/v1',
+  api: `api.${window.location.host}/v1`,
 };
 
 const local: EnvParams = {
