@@ -3,7 +3,7 @@ type EnvParams = {
 };
 
 const production: EnvParams = {
-  api: `api.${window.location.host}/v1`,
+  api: `https://api.${window.location.host}/v1`,
 };
 
 const local: EnvParams = {
