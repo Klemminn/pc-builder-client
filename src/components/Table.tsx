@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 import { FormatUtils, BuildUtils } from 'utils';
 import * as Images from './Images';
 import { Component, ComponentTypes } from 'types';
-import { Buttons, Hidden, Inputs } from 'components';
+import { Buttons, Hidden, Inputs, Loader } from 'components';
 import { BuildState } from 'states';
 import { Colors } from 'styles';
 
@@ -115,7 +115,9 @@ export const Table: React.FC<TableProps> = ({
 
   return (
     <BootstrapTable striped {...rest}>
-      {!data ? null : (
+      {!data ? (
+        <Loader />
+      ) : (
         <>
           <thead>
             <tr>
