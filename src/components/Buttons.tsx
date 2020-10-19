@@ -63,6 +63,10 @@ export const AddButton: React.FC<ButtonProps> = ({ ...rest }) => (
   <IconButton children={<FaPlus />} {...rest} />
 );
 
+export const CartButton: React.FC<ButtonProps> = ({ ...rest }) => (
+  <IconButton children={<FaCartPlus />} {...rest} />
+);
+
 export const EditButton: React.FC<ButtonProps> = ({ ...rest }) => (
   <IconButton children={<FaPencilAlt />} {...rest} />
 );
@@ -99,9 +103,7 @@ export const OfferingsButton: React.FC<OfferingsButtonProps> = ({
   children,
 }) => (
   <UncontrolledDropdown>
-    <DropdownButtonToggle caret={!!children}>
-      {children ?? <FaCartPlus />}
-    </DropdownButtonToggle>
+    <DropdownButtonToggle caret>{children}</DropdownButtonToggle>
     <DropdownMenu>
       {offerings.map((offering, idx) => (
         <DropdownItem key={idx} onClick={() => onSelect(offering)}>

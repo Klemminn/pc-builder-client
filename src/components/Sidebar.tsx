@@ -143,7 +143,13 @@ const Sidebar: React.FC<SidebarProps> = ({ children, open, toggleSidebar }) => {
                 to={to ?? `/build/${buildState.buildId ?? ''}`}
                 onClick={toggleSidebar}
               >
-                <SidebarItem active={to === location.pathname} {...component} />
+                <SidebarItem
+                  active={
+                    (!to && location.pathname.includes('build')) ||
+                    to === location.pathname
+                  }
+                  {...component}
+                />
               </Link>
               {!idx && <Separator />}
             </React.Fragment>

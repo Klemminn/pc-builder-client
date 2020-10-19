@@ -182,6 +182,11 @@ const WebsiteLink = styled.a`
   text-decoration: underline;
 `;
 
+const PriceRange = styled.div`
+  font-size: 0.8rem;
+  color: ${Colors.GreyDarker};
+`;
+
 export const PriceColumn: React.FC<PriceColumnProps> = ({
   item,
   componentType,
@@ -201,16 +206,25 @@ export const PriceColumn: React.FC<PriceColumnProps> = ({
             offerings[0].price,
           )}`}
         </WebsiteLink>
+        {offerings.length > 1 && (
+          <PriceRange>
+            {`Verðbil: ${FormatUtils.thousandSeparator(
+              item.minPrice,
+            )} - ${FormatUtils.formatCurrency(
+              Math.max(...offerings.map((o) => o.price)),
+            )}`}
+          </PriceRange>
+        )}
       </Column>
       <Column thin>
         {selected ? (
           <Buttons.CheckButton color="secondary" />
         ) : (
-          <Buttons.OfferingsButton
-            onSelect={(offering) =>
+          <Buttons.CartButton
+            onClick={() =>
               BuildUtils.updateState(
                 {
-                  [componentType]: { ...item, selectedOffering: offering },
+                  [componentType]: { ...item, selectedOffering: offerings[0] },
                 },
                 history,
               )
