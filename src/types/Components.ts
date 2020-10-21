@@ -103,6 +103,7 @@ export type Motherboard = {
   motherboardFormFactor: string;
   chipset: string;
   cpuSocket: string;
+  memoryType: string;
   ramSlots: number;
   m2Slots: number;
   minPrice: number;

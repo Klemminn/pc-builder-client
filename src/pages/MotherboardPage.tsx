@@ -12,7 +12,7 @@ const MotherboardPage: React.FC = () => {
   }, []);
 
   const getData = async () => {
-    const response: MotherboardContainer = await OfferingsService.getMotherboard();
+    const response = await OfferingsService.getMotherboard();
     setData(response);
   };
 
@@ -48,7 +48,7 @@ const MotherboardPage: React.FC = () => {
           },
           {
             type: 'basic',
-            label: 'm.2 raufar',
+            label: 'M.2 raufar',
             hideUnder: 750,
           },
           {
@@ -62,7 +62,9 @@ const MotherboardPage: React.FC = () => {
             <Table.Column center>{item.cpuSocket}</Table.Column>
             <Table.Column center>{item.chipset}</Table.Column>
             <Table.Column center>{item.motherboardFormFactor}</Table.Column>
-            <Table.Column center>{`${item.ramSlots}`}</Table.Column>
+            <Table.Column
+              center
+            >{`${item.ramSlots}x ${item.memoryType}`}</Table.Column>
             <Hidden.HideUnder>
               <Table.Column center>{`${item.m2Slots}`}</Table.Column>
             </Hidden.HideUnder>
