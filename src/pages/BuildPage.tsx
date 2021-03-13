@@ -124,6 +124,9 @@ const HomePage: React.FC = () => {
           currentBuild = await BuildService.getBuild(storageBuildId);
         }
       }
+      if (currentBuild?.buildId) {
+        history.push(`/build/${currentBuild?.buildId}`);
+      }
       buildState.set({ ...BuildState.defaultBuild, ...currentBuild });
     };
     init();
@@ -135,23 +138,23 @@ const HomePage: React.FC = () => {
     return accumulator + (component?.selectedOffering?.price ?? 0);
   }, 0);
 
-  const renderComponent = (key: string) => {
-    if (key === 'buildId') return null;
-    const component = stateBuild[key];
+  const Component: React.FC<{ componentKey: string }> = ({ componentKey }) => {
+    if (componentKey === 'buildId') return null;
+    const component = stateBuild[componentKey];
     const Button = component ? Buttons.EditButton : Buttons.AddButton;
     const isCheapest =
       component?.selectedOffering?.price === component?.minPrice;
     return (
-      <ComponentContainer key={key}>
-        <ComponentTitle key={key}>
-          <Button to={`/${key}`} />
-          {ComponentNames[key]}
+      <ComponentContainer>
+        <ComponentTitle>
+          <Button to={`/${componentKey}`} />
+          {ComponentNames[componentKey]}
           {component && (
             <RemoveIcon
               onClick={() =>
                 BuildUtils.updateState(
                   {
-                    [key]: null,
+                    [componentKey]: null,
                   },
                   history,
                 )
@@ -175,7 +178,7 @@ const HomePage: React.FC = () => {
                   onSelect={(offering) => {
                     BuildUtils.updateState(
                       {
-                        [key]: {
+                        [componentKey]: {
                           ...component,
                           selectedOffering: offering,
                         },
@@ -223,7 +226,9 @@ const HomePage: React.FC = () => {
           Samtals: {FormatUtils.formatCurrency(totalPrice)}
         </TotalPrice>
       </TopContainer>
-      {Object.keys(stateBuild).map((key: string) => renderComponent(key))}
+      {Object.keys(stateBuild).map((componentKey: string) => (
+        <Component key={componentKey} componentKey={componentKey} />
+      ))}
     </Page>
   );
 };

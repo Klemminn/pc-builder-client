@@ -113,28 +113,24 @@ export const Table: React.FC<TableProps> = ({
     }
   }
 
-  return (
+  return !data ? (
+    <Loader />
+  ) : (
     <BootstrapTable striped {...rest}>
-      {!data ? (
-        <Loader />
-      ) : (
-        <>
-          <thead>
-            <tr>
-              {headers.map((header, idx) => (
-                <React.Fragment key={idx}>
-                  {renderHeader(header)}
-                </React.Fragment>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {filteredItems.map((item: Component, idx: number) =>
-              renderRow(item, idx),
-            )}
-          </tbody>
-        </>
-      )}
+      <>
+        <thead>
+          <tr>
+            {headers.map((header, idx) => (
+              <React.Fragment key={idx}>{renderHeader(header)}</React.Fragment>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {filteredItems.map((item: Component, idx: number) =>
+            renderRow(item, idx),
+          )}
+        </tbody>
+      </>
     </BootstrapTable>
   );
 };
@@ -211,7 +207,7 @@ export const PriceColumn: React.FC<PriceColumnProps> = ({
             {`Verðbil: ${FormatUtils.thousandSeparator(
               item.minPrice,
             )} - ${FormatUtils.formatCurrency(
-              Math.max(...offerings.map((o) => o.price)),
+              offerings[offerings.length - 1].price,
             )}`}
           </PriceRange>
         )}
