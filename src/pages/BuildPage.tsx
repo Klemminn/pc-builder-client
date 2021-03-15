@@ -126,6 +126,7 @@ const HomePage: React.FC = () => {
       }
       if (currentBuild?.buildId) {
         history.push(`/build/${currentBuild?.buildId}`);
+        console.log('location', history.location);
       }
       buildState.set({ ...BuildState.defaultBuild, ...currentBuild });
     };
