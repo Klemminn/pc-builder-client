@@ -5,16 +5,18 @@ import { Input } from 'reactstrap';
 type SelectProps = {
   options: any;
   placeholder?: string;
+  defaultSelected?: string[];
   onChange?(selected: string[]): void;
 };
 
 export const Select: React.FC<SelectProps> = ({
   options,
   placeholder,
+  defaultSelected = [],
   onChange,
   ...rest
 }) => {
-  const [selected, setSelected] = useState<string[]>([]);
+  const [selected, setSelected] = useState<string[]>(defaultSelected);
   return (
     <ReactMultiSelect
       options={options}

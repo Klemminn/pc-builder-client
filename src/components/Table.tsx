@@ -7,7 +7,7 @@ import { FormatUtils, BuildUtils } from 'utils';
 import * as Images from './Images';
 import { Component, ComponentTypes } from 'types';
 import { Buttons, Hidden, Inputs, Loader } from 'components';
-import { BuildState } from 'states';
+import { BuildState, SelectedRetailersState } from 'states';
 import { Colors } from 'styles';
 
 type HeaderObjectProps = {
@@ -36,6 +36,8 @@ export const Table: React.FC<TableProps> = ({
 }) => {
   const [filters, setFilters] = useState<Filters>({});
   const [search, setSearch] = useState('');
+  const selectedRetailersState = SelectedRetailersState.useState();
+  const selectedRetailers = selectedRetailersState.get();
 
   const renderHeader = (header: HeaderObjectProps) => {
     const { type, label, attribute, hideUnder, renderSelectLabel } = header;
@@ -68,7 +70,17 @@ export const Table: React.FC<TableProps> = ({
     } else if (type === 'price') {
       parsed = (
         <>
-          <Header label="Lægsta verð" right />
+          <SelectHeader
+            label="Verslanir"
+            options={data?.retailer.map((value: string) => ({
+              label: renderSelectLabel?.(value) ?? value,
+              value: value,
+            }))}
+            defaultSelected={selectedRetailers}
+            onChange={(options) => {
+              selectedRetailersState.set(options);
+            }}
+          />
           <Header thin />
         </>
       );
@@ -102,6 +114,16 @@ export const Table: React.FC<TableProps> = ({
       filteredItems = filteredItems.filter((item: Component) =>
         searchSplit.every((word) => item.name.toLowerCase().includes(word)),
       );
+    }
+    if (selectedRetailers.length) {
+      filteredItems = filteredItems
+        .map((item: Component) => ({
+          ...item,
+          offerings: item.offerings.filter((offering) =>
+            selectedRetailers.includes(offering.retailerName),
+          ),
+        }))
+        .filter((item: Component) => item.offerings.length > 0);
     }
     // Filter by chosen attributes
     for (const attribute in filters) {
@@ -253,12 +275,6 @@ export const Header: React.FC<HeaderProps> = ({ label, ...rest }) => (
   <StyledHeader {...rest}>{label}</StyledHeader>
 );
 
-type SelectHeaderProps = {
-  label: string;
-  options: Option[];
-  onChange(options: any): void;
-};
-
 const SelectContainer = styled.div`
   display: flex;
   > div {
@@ -267,9 +283,17 @@ const SelectContainer = styled.div`
   }
 `;
 
+type SelectHeaderProps = {
+  label: string;
+  options: Option[];
+  defaultSelected?: string[];
+  onChange(options: any): void;
+};
+
 const SelectHeader: React.FC<SelectHeaderProps> = ({
   label,
   options,
+  defaultSelected,
   onChange,
   children,
 }) => (
@@ -278,6 +302,7 @@ const SelectHeader: React.FC<SelectHeaderProps> = ({
       <Hidden.HideUnder width={640}>
         <Inputs.Select
           options={options}
+          defaultSelected={defaultSelected}
           onChange={(selectedOptions: string[]) => onChange(selectedOptions)}
           placeholder={label}
         />

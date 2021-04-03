@@ -1,2 +1,3 @@
 import * as BuildState from './BuildState';
-export { BuildState };
+import * as SelectedRetailersState from './SelectedRetailersState';
+export { BuildState, SelectedRetailersState };
