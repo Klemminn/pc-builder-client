@@ -13,6 +13,7 @@ export const defaultBuild: Build = {
   hdd: null,
   case: null,
   psu: null,
+  monitor: null,
 };
 
 export const state = createState(defaultBuild);

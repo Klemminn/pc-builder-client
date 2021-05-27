@@ -21,6 +21,7 @@ import SsdPage from 'pages/SsdPage';
 import HddPage from 'pages/HddPage';
 import CasePage from 'pages/CasePage';
 import PsuPage from 'pages/PsuPage';
+import MonitorPage from 'pages/MonitorPage';
 
 const App = () => {
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
@@ -45,6 +46,7 @@ const App = () => {
           <Route exact path="/hdd" component={HddPage} />
           <Route exact path="/case" component={CasePage} />
           <Route exact path="/psu" component={PsuPage} />
+          <Route exact path="/monitor" component={MonitorPage} />
           <Redirect to="/build/" />
         </Switch>
       </Sidebar>

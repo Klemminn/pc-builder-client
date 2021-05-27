@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { useLocation } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { FaMemory, FaBox, FaHammer } from 'react-icons/fa';
-import { FiCpu, FiHardDrive } from 'react-icons/fi';
+import { FiCpu, FiHardDrive, FiMonitor } from 'react-icons/fi';
 import { CgDrive, CgScreenMirror } from 'react-icons/cg';
 import { ImPower } from 'react-icons/im';
 import { GiCircuitry, GiComputerFan } from 'react-icons/gi';
@@ -122,6 +122,11 @@ const components = [
     icon: <ImPower />,
     text: 'Aflgjafar',
     to: '/psu',
+  },
+  {
+    icon: <FiMonitor />,
+    text: 'Skjáir',
+    to: '/monitor',
   },
 ];
 

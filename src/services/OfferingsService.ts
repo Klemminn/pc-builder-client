@@ -9,6 +9,7 @@ import {
   HddContainer,
   CaseContainer,
   PsuContainer,
+  MonitorContainer,
 } from 'types';
 
 export const getCpus = async (): Promise<CpuContainer> => {
@@ -53,5 +54,10 @@ export const getCase = async (): Promise<CaseContainer> => {
 
 export const getPsu = async (): Promise<PsuContainer> => {
   const { data } = await connector.get('/offerings/psu/');
+  return data;
+};
+
+export const getMonitor = async (): Promise<MonitorContainer> => {
+  const { data } = await connector.get('/offerings/monitor/');
   return data;
 };

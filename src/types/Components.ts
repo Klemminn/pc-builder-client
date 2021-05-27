@@ -9,7 +9,8 @@ export type ComponentTypes =
   | 'ssd'
   | 'hdd'
   | 'case'
-  | 'psu';
+  | 'psu'
+  | 'monitor';
 
 export type Component = (
   | Cpu
@@ -21,6 +22,7 @@ export type Component = (
   | Hdd
   | Case
   | Psu
+  | Monitor
 ) & {
   [x: string]: string;
 };
@@ -45,7 +47,7 @@ export type Cpu = {
 export type CpuContainer = {
   vendor: string[];
   retailer: string[];
-  cpuSocket: string[];
+  cpuSocket: Cpu['cpuSocket'][];
   items: Cpu[];
 };
 
@@ -67,9 +69,9 @@ export type Memory = {
 export type MemoryContainer = {
   vendor: string[];
   retailer: string[];
-  type: string[];
-  frequency: number[];
-  size: number[];
+  type: Memory['type'][];
+  frequency: Memory['frequency'][];
+  size: Memory['size'][];
   items: Memory[];
 };
 
@@ -77,11 +79,8 @@ export type CpuCooler = {
   id: string;
   vendor: string;
   name: string;
-  frequency: number;
-  type: string;
-  modules: number;
-  size: number;
-  cas: number;
+  fans: number;
+  fanSize: number;
   minPrice: number;
   image: string;
   offerings: Offering[];
@@ -91,9 +90,9 @@ export type CpuCooler = {
 export type CpuCoolerContainer = {
   vendor: string[];
   retailer: string[];
-  fans: number[];
-  fanSize: number[];
-  items: Memory[];
+  fans: CpuCooler['fans'][];
+  fanSize: CpuCooler['fanSize'][];
+  items: CpuCooler[];
 };
 
 export type Motherboard = {
@@ -115,10 +114,10 @@ export type Motherboard = {
 export type MotherboardContainer = {
   vendor: string[];
   retailer: string[];
-  motherboardFormFactor: string[];
-  cpuSocket: string[];
-  chipset: string[];
-  items: Gpu[];
+  motherboardFormFactor: Motherboard['motherboardFormFactor'][];
+  cpuSocket: Motherboard['cpuSocket'][];
+  chipset: Motherboard['chipset'][];
+  items: Motherboard[];
 };
 
 export type Gpu = {
@@ -137,7 +136,7 @@ export type Gpu = {
 export type GpuContainer = {
   vendor: string[];
   retailer: string[];
-  type: string[];
+  type: Gpu['type'][];
   items: Gpu[];
 };
 
@@ -158,9 +157,9 @@ export type Ssd = {
 export type SsdContainer = {
   vendor: string[];
   retailer: string[];
-  type: string[];
-  capacity: number[];
-  items: Gpu[];
+  type: Ssd['type'][];
+  capacity: Ssd['capacity'][];
+  items: Ssd[];
 };
 
 export type Hdd = {
@@ -179,9 +178,9 @@ export type Hdd = {
 export type HddContainer = {
   vendor: string[];
   retailer: string[];
-  format: string[];
-  capacity: number[];
-  items: Gpu[];
+  format: Hdd['format'][];
+  capacity: Hdd['capacity'][];
+  items: Hdd[];
 };
 
 export type Case = {
@@ -199,9 +198,9 @@ export type Case = {
 export type CaseContainer = {
   vendor: string[];
   retailer: string[];
-  motherboardFormFactor: string[];
-  psuFormFactor: string[];
-  items: Gpu[];
+  motherboardFormFactor: Case['motherboardFormFactor'][];
+  psuFormFactor: Case['psuFormFactor'][];
+  items: Case[];
 };
 
 export type Psu = {
@@ -221,7 +220,35 @@ export type Psu = {
 export type PsuContainer = {
   vendor: string[];
   retailer: string[];
-  ratings: string[];
-  psuFormFactor: string[];
-  items: Gpu[];
+  rating: Psu['rating'][];
+  psuFormFactor: Psu['psuFormFactor'][];
+  items: Psu[];
+};
+
+export type Monitor = {
+  id: string;
+  vendor: string;
+  name: string;
+  resolution: string;
+  panel: string;
+  size: number;
+  gsync: string;
+  freesync: number;
+  curved: boolean;
+  refreshRate: number;
+  image: string;
+  offerings: Offering[];
+  selectedOffering?: Offering[];
+};
+
+export type MonitorContainer = {
+  vendor: Monitor['vendor'][];
+  retailer: string[];
+  resolution: Monitor['resolution'][];
+  size: Monitor['size'][];
+  panel: Monitor['panel'][];
+  freesync: Monitor['freesync'][];
+  gsync: Monitor['gsync'][];
+  refreshRate: Monitor['refreshRate'][];
+  items: Monitor[];
 };

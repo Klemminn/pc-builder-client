@@ -11,4 +11,5 @@ export type Build = {
   hdd?: Components.Hdd | null;
   case?: Components.Case | null;
   psu?: Components.Psu | null;
+  monitor?: Components.Monitor | null;
 };

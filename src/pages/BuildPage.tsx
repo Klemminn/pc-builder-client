@@ -97,6 +97,7 @@ const ComponentNames: { [x: string]: string } = {
   hdd: 'HDD',
   case: 'Kassi',
   psu: 'Aflgjafi',
+  monitor: 'Skjár',
 };
 
 type HomeRouteParams = {
