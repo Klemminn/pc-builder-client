@@ -31,6 +31,7 @@ const MonitorPage: React.FC = () => {
           {
             type: 'select',
             attribute: 'size',
+            renderSelectLabel: (value) => `${value}"`,
             label: 'Stærð',
           },
           {
@@ -47,6 +48,7 @@ const MonitorPage: React.FC = () => {
           {
             type: 'select',
             attribute: 'refreshRate',
+            renderSelectLabel: (value) => `${value}Hz`,
             label: 'Tíðni',
             hideUnder: 750,
           },
