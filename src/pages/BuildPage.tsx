@@ -23,15 +23,20 @@ const ComponentTitle = styled.div`
   font-weight: bold;
 `;
 
-const ComponentInfoContainer = styled.div`
+const ComponentInfoContainer = styled.div<{ isCompact: boolean }>`
   display: flex;
-  border: 1px solid ${Colors.GreyDark};
   justify-content: space-between;
   align-items: center;
-  border-radius: 1rem;
   margin-top: 0.5rem;
+  ${({ isCompact }) =>
+    isCompact
+      ? ''
+      : `
+  border: 1px solid ${Colors.GreyDark};
+  border-radius: 1rem;
   margin-left: 3.5em;
   padding: 1rem;
+  `}
 `;
 
 const ComponentName = styled.div`
@@ -170,7 +175,7 @@ const BuildPage: React.FC = () => {
           </ComponentTitle>
         )}
         {component && (
-          <ComponentInfoContainer>
+          <ComponentInfoContainer isCompact={isCompact}>
             <ComponentNameImageContainer
               href={component?.selectedOffering?.url}
               target="__blank"

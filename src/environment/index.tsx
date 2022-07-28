@@ -7,7 +7,7 @@ const production: EnvParams = {
 };
 
 const local: EnvParams = {
-  api: 'http://127.0.0.1:8000/v1',
+  api: 'https://api.builder.vaktin.is/v1',
 };
 
 const env = process.env.REACT_APP_ENV;
