@@ -83,7 +83,7 @@ const HomePage: React.FC = () => {
         }
       }
       if (currentBuild?.buildId) {
-        history.push(`/build/${currentBuild?.buildId}`);
+        history.push(`/build/${currentBuild?.buildId}/compact`);
       }
       buildState.set({ ...BuildState.defaultBuild, ...currentBuild });
     };
