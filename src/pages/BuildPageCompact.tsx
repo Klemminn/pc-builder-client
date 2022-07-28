@@ -7,20 +7,12 @@ import { Buttons, Images, Page } from 'components';
 import { BuildUtils, FormatUtils, StorageUtils } from 'utils';
 import { Colors } from 'styles';
 import { BuildService } from 'services';
-import { FaRedo, FaTimes } from 'react-icons/fa';
 
 const ComponentContainer = styled.div`
   margin-bottom: 1rem;
   a {
     margin-right: 1rem;
   }
-`;
-
-const ComponentTitle = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: 1.3rem;
-  font-weight: bold;
 `;
 
 const ComponentInfoContainer = styled.div`
