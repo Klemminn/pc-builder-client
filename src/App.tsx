@@ -22,7 +22,6 @@ import HddPage from 'pages/HddPage';
 import CasePage from 'pages/CasePage';
 import PsuPage from 'pages/PsuPage';
 import MonitorPage from 'pages/MonitorPage';
-import BuildPageCompact from 'pages/BuildPageCompact';
 
 const App = () => {
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
@@ -38,7 +37,7 @@ const App = () => {
         <Switch>
           <Route exact path="/build/" component={BuildPage} />
           <Route exact path="/build/:buildId" component={BuildPage} />
-          <Route exact path="/build/:buildId/compact" component={BuildPageCompact} />
+          <Route exact path="/build/:buildId/compact" component={BuildPage} />
           <Route exact path="/cpu" component={CpuPage} />
           <Route exact path="/cpuCooler" component={CpuCoolerPage} />
           <Route exact path="/motherboard" component={MotherboardPage} />

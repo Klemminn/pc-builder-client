@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams, useLocation } from 'react-router-dom';
 
 import { BuildState } from 'states';
 import { Buttons, Images, Page } from 'components';
@@ -104,11 +104,13 @@ type HomeRouteParams = {
   buildId: string;
 };
 
-const HomePage: React.FC = () => {
+const BuildPage: React.FC = () => {
   const buildState: any = BuildState.useState();
   const stateBuild: any = buildState.get();
   const { buildId: routeBuildId }: HomeRouteParams = useParams();
   const history = useHistory();
+  const location = useLocation();
+  const isCompact = location.pathname.endsWith('/compact');
 
   useEffect(() => {
     const init = async () => {
@@ -126,7 +128,9 @@ const HomePage: React.FC = () => {
         }
       }
       if (currentBuild?.buildId) {
-        history.push(`/build/${currentBuild?.buildId}`);
+        history.push(
+          `/build/${currentBuild?.buildId}${isCompact ? '/compact' : ''}`,
+        );
       }
       buildState.set({ ...BuildState.defaultBuild, ...currentBuild });
     };
@@ -147,22 +151,24 @@ const HomePage: React.FC = () => {
       component?.selectedOffering?.price === component?.minPrice;
     return (
       <ComponentContainer>
-        <ComponentTitle>
-          <Button to={`/${componentKey}`} />
-          {ComponentNames[componentKey]}
-          {component && (
-            <RemoveIcon
-              onClick={() =>
-                BuildUtils.updateState(
-                  {
-                    [componentKey]: null,
-                  },
-                  history,
-                )
-              }
-            />
-          )}
-        </ComponentTitle>
+        {!isCompact && (
+          <ComponentTitle>
+            <Button to={`/${componentKey}`} />
+            {ComponentNames[componentKey]}
+            {component && (
+              <RemoveIcon
+                onClick={() =>
+                  BuildUtils.updateState(
+                    {
+                      [componentKey]: null,
+                    },
+                    history,
+                  )
+                }
+              />
+            )}
+          </ComponentTitle>
+        )}
         {component && (
           <ComponentInfoContainer>
             <ComponentNameImageContainer
@@ -217,12 +223,14 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <Page title="Veldu íhluti">
+    <Page title={`${isCompact ? 'Íhlutir' : 'Veldu íhluti'}`}>
       <TopContainer>
-        <ClearButton onClick={() => BuildUtils.clearState(history)}>
-          <FaRedo />
-          Byrja upp á nýtt
-        </ClearButton>
+        {!isCompact && (
+          <ClearButton onClick={() => BuildUtils.clearState(history)}>
+            <FaRedo />
+            Byrja upp á nýtt
+          </ClearButton>
+        )}
         <TotalPrice>
           Samtals: {FormatUtils.formatCurrency(totalPrice)}
         </TotalPrice>
@@ -234,4 +242,4 @@ const HomePage: React.FC = () => {
   );
 };
 
-export default HomePage;
+export default BuildPage;
