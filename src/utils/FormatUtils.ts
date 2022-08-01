@@ -7,7 +7,6 @@ export const formatCurrency = (num: number | string) => {
 };
 
 export const getSmallImageUrl = (url: string) => {
-  if (!url) return '';
   const split = url.split('.');
   split[split.length - 2] += '-small';
   return split.join('.');
