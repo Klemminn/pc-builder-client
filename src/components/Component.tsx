@@ -36,26 +36,24 @@ export const Component: React.FC<{ componentKey: string; component: any }> = ({
 
   return (
     <ComponentContainer>
-      {!isCompact && (
-        <ComponentTitle>
-          <Button to={`/${componentKey}`} />
-          {ComponentNames[componentKey]}
-          {component && (
-            <RemoveIcon
-              onClick={() =>
-                BuildUtils.updateState(
-                  {
-                    [componentKey]: null,
-                  },
-                  history,
-                )
-              }
-            />
-          )}
-        </ComponentTitle>
-      )}
+      <ComponentTitle>
+        <Button to={`/${componentKey}`} />
+        {ComponentNames[componentKey]}
+        {component && (
+          <RemoveIcon
+            onClick={() =>
+              BuildUtils.updateState(
+                {
+                  [componentKey]: null,
+                },
+                history,
+              )
+            }
+          />
+        )}
+      </ComponentTitle>
       {component && (
-        <ComponentInfoContainer isCompact={isCompact}>
+        <ComponentInfoContainer>
           <ComponentNameImageContainer
             href={component?.selectedOffering?.url}
             target="__blank"
@@ -123,20 +121,15 @@ const ComponentTitle = styled.div`
   font-weight: bold;
 `;
 
-const ComponentInfoContainer = styled.div<{ isCompact: boolean }>`
+const ComponentInfoContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 0.5rem;
-  ${({ isCompact }) =>
-    isCompact
-      ? ''
-      : `
   border: 1px solid ${Colors.GreyDark};
   border-radius: 1rem;
   margin-left: 3.5em;
   padding: 1rem;
-  `}
 `;
 
 const ComponentName = styled.div`

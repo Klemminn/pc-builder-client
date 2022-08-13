@@ -21,6 +21,22 @@ const ClearButton = styled(Buttons.Button)`
   }
 `;
 
+const TopContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const TotalPrice = styled.div`
+  font-size: 1.3rem;
+  text-decoration: underline;
+  font-weight: bold;
+`;
+
+const BBCode = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
 type HomeRouteParams = {
   buildId: string;
 };
@@ -68,7 +84,7 @@ const BuildPage: React.FC = () => {
 
   if (isCompact)
     return (
-      <Page title={`${isCompact ? 'Íhlutir' : 'Veldu íhluti'}`}>
+      <Page title="Íhlutir">
         <Table hover>
           <thead>
             <tr>
@@ -92,15 +108,12 @@ const BuildPage: React.FC = () => {
     );
 
   return (
-    <Page title={`${isCompact ? 'Íhlutir' : 'Veldu íhluti'}`}>
+    <Page title="Veldu íhluti">
       <TopContainer>
-        {!isCompact && (
-          <ClearButton onClick={() => BuildUtils.clearState(history)}>
-            <FaRedo />
-            Byrja upp á nýtt
-          </ClearButton>
-        )}
-
+        <ClearButton onClick={() => BuildUtils.clearState(history)}>
+          <FaRedo />
+          Byrja upp á nýtt
+        </ClearButton>
         <TotalPrice>
           Samtals: {FormatUtils.formatCurrency(totalPrice)}
         </TotalPrice>
@@ -128,21 +141,5 @@ const BuildPage: React.FC = () => {
     </Page>
   );
 };
-
-const TopContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const TotalPrice = styled.div`
-  font-size: 1.3rem;
-  text-decoration: underline;
-  font-weight: bold;
-`;
-
-const BBCode = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`;
 
 export default BuildPage;
