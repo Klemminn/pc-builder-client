@@ -215,13 +215,14 @@ export const PriceColumn: React.FC<PriceColumnProps> = ({
   const component = build[componentType];
   const selected = component?.id === item.id;
   const { offerings } = item;
+  const firstOffering = offerings[0] ?? {};
 
   return (
     <>
       <Column right>
-        <WebsiteLink href={offerings[0].url} target="__blank">
-          {`${offerings[0].retailerName} - ${FormatUtils.formatCurrency(
-            offerings[0].price,
+        <WebsiteLink href={firstOffering.url} target="__blank">
+          {`${firstOffering.retailerName} - ${FormatUtils.formatCurrency(
+            firstOffering.price,
           )}`}
         </WebsiteLink>
         {offerings.length > 1 && (
@@ -242,7 +243,7 @@ export const PriceColumn: React.FC<PriceColumnProps> = ({
             onClick={() =>
               BuildUtils.updateState(
                 {
-                  [componentType]: { ...item, selectedOffering: offerings[0] },
+                  [componentType]: { ...item, selectedOffering: firstOffering },
                 },
                 history,
               )
