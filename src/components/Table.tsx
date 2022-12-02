@@ -215,7 +215,7 @@ export const PriceColumn: React.FC<PriceColumnProps> = ({
   const component = build[componentType];
   const selected = component?.id === item.id;
   const { offerings } = item;
-  const firstOffering = offerings[0] ?? {};
+  const firstOffering = offerings[0];
 
   return (
     <>
